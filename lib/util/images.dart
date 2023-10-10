@@ -4,7 +4,7 @@ class Images {
   static const String english = 'assets/image/english.png';
   static const String call = 'assets/image/call.png';
   static const String mail = 'assets/image/mail.png';
-  static const String placeholder = 'assets/image/placeholder.jpg';
+  static const String placeholder = 'assets/image/placeholder.png';
   static const String notification_placeholder = 'assets/image/notification_placeholder.jpg';
   static const String log_out = 'assets/image/log_out.png';
   static const String profile_bg = 'assets/image/profile_bg.png';

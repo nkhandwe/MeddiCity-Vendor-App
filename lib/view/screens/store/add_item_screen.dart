@@ -53,7 +53,8 @@ class _AddItemScreenState extends State<AddItemScreen> {
     Get.find<StoreController>().getAttributeList(widget.item);
     if(_update) {
       _item = Item.fromJson(widget.item.toJson());
-      if(_item.tags.isNotEmpty){
+      // print("this is the value   "+"${_item.tags}");
+      if(_item.tags != null){
         _item.tags.forEach((tag) {
           Get.find<StoreController>().setTag(tag.tag, isUpdate: false);
         });
@@ -381,21 +382,21 @@ class _AddItemScreenState extends State<AddItemScreen> {
               ) : SizedBox(),
               SizedBox(height: _module.addOn ? Dimensions.PADDING_SIZE_LARGE : 0),
 
-              _module.itemAvailableTime ? Row(children: [
+              // _module.itemAvailableTime ? Row(children: [
 
-                Expanded(child: CustomTimePicker(
-                  title: 'available_time_starts'.tr, time: _item.availableTimeStarts,
-                  onTimeChanged: (time) => _item.availableTimeStarts = time,
-                )),
-                SizedBox(width: Dimensions.PADDING_SIZE_SMALL),
+              //   Expanded(child: CustomTimePicker(
+              //     title: 'available_time_starts'.tr, time: _item.availableTimeStarts,
+              //     onTimeChanged: (time) => _item.availableTimeStarts = time,
+              //   )),
+              //   SizedBox(width: Dimensions.PADDING_SIZE_SMALL),
 
-                Expanded(child: CustomTimePicker(
-                  title: 'available_time_ends'.tr, time: _item.availableTimeEnds,
-                  onTimeChanged: (time) => _item.availableTimeEnds = time,
-                )),
+              //   Expanded(child: CustomTimePicker(
+              //     title: 'available_time_ends'.tr, time: _item.availableTimeEnds,
+              //     onTimeChanged: (time) => _item.availableTimeEnds = time,
+              //   )),
 
-              ]) : SizedBox(),
-              SizedBox(height: _module.itemAvailableTime ? Dimensions.PADDING_SIZE_LARGE : 0),
+              // ]) : SizedBox(),
+              // SizedBox(height: _module.itemAvailableTime ? Dimensions.PADDING_SIZE_LARGE : 0),
 
               Row(children: [
                 Text(
@@ -432,14 +433,18 @@ class _AddItemScreenState extends State<AddItemScreen> {
                         color: Colors.black.withOpacity(0.3), borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
                         border: Border.all(width: 1, color: Theme.of(context).primaryColor),
                       ),
-                      child: Container(
+                      child:
+                       Container(
                         margin: EdgeInsets.all(25),
-                        decoration: BoxDecoration(
+                        decoration:
+                         BoxDecoration(
                           border: Border.all(width: 2, color: Colors.white),
                           shape: BoxShape.circle,
                         ),
-                        child: Icon(Icons.camera_alt, color: Colors.white),
-                      ),
+                        child:
+                         Icon(Icons.camera_alt, color: Colors.white),
+                      )
+                      ,
                     ),
                   ),
                 ),
@@ -484,14 +489,16 @@ class _AddItemScreenState extends State<AddItemScreen> {
                         borderRadius: BorderRadius.circular(Dimensions.RADIUS_SMALL),
                         border: Border.all(color: Theme.of(context).primaryColor, width: 2),
                       ),
-                        child: Container(
-                          padding: EdgeInsets.all(Dimensions.PADDING_SIZE_DEFAULT),
-                          decoration: BoxDecoration(
-                            border: Border.all(width: 2, color: Theme.of(context).primaryColor),
-                            shape: BoxShape.circle,
-                          ),
-                          child: Icon(Icons.camera_alt, color: Theme.of(context).primaryColor),
-                        ),
+                      child: Image.asset(Images.placeholder),
+                        // child:
+                        //  Container(
+                        //   padding: EdgeInsets.all(Dimensions.PADDING_SIZE_DEFAULT),
+                        //   decoration: BoxDecoration(
+                        //     border: Border.all(width: 2, color: Theme.of(context).primaryColor),
+                        //     shape: BoxShape.circle,
+                        //   ),
+                        //   child: Icon(Icons.camera_alt, color: Theme.of(context).primaryColor),
+                        // ),
                       ),
                     );
                   }
@@ -546,6 +553,8 @@ class _AddItemScreenState extends State<AddItemScreen> {
               bool _haveBlankVariant = false;
               bool _blankVariantPrice = false;
               bool _blankVariantStock = false;
+               _item.availableTimeStarts = " ";
+                    _item.availableTimeEnds = " ";
               for(AttributeModel attr in storeController.attributeList) {
                 if(attr.active && attr.variants.length == 0) {
                   _haveBlankVariant = true;
@@ -578,13 +587,21 @@ class _AddItemScreenState extends State<AddItemScreen> {
                 showCustomSnackBar('enter_stock'.tr);
               }else if(_module.unit && storeController.unitIndex == 0) {
                 showCustomSnackBar('add_an_unit'.tr);
-              }else if(_module.itemAvailableTime && _item.availableTimeStarts == null) {
-                showCustomSnackBar('pick_start_time'.tr);
-              }else if(_module.itemAvailableTime && _item.availableTimeEnds == null) {
-                showCustomSnackBar('pick_end_time'.tr);
-              }else if(!_update && storeController.rawLogo == null) {
+              }
+              // else
+              //  if(_module.itemAvailableTime && _item.availableTimeStarts == null) {
+              //   // showCustomSnackBar('pick_start_time'.tr);
+               
+              // }else if(_module.itemAvailableTime && _item.availableTimeEnds == null) {
+              //   // showCustomSnackBar('pick_end_time'.tr);
+                  
+              // }
+              else
+               if(!_update && storeController.rawLogo == null) {
+                //  storeController.getImageXFileByUrl(Images.placeholder);
                 showCustomSnackBar('upload_item_image'.tr);
-              }else {
+              }
+              else {
                 _item.veg = storeController.isVeg ? 1 : 0;
                 _item.price = double.parse(_price);
                 _item.discount = double.parse(_discount);

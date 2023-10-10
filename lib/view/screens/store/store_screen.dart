@@ -216,9 +216,11 @@ class _StoreScreenState extends State<StoreScreen> with TickerProviderStateMixin
                 animation: _tabController.animation,
                 builder: (context, child) {
                   if (_tabController.index == 0) {
-                    return Get.find<AuthController>().modulePermission.item ? ItemView(scrollController: _scrollController, type: storeController.type, onVegFilterTap: (String type) {
+                    return Get.find<AuthController>().modulePermission.item ?
+                     ItemView(scrollController: _scrollController, type: storeController.type, onVegFilterTap: (String type) {
                       Get.find<StoreController>().getItemList('1', type);
-                    }) : Center(child: Padding(
+                    })
+                     : Center(child: Padding(
                       padding: const EdgeInsets.only(top: 100),
                       child: Text('you_have_no_permission_to_access_this_feature'.tr, style: robotoMedium),
                     ));

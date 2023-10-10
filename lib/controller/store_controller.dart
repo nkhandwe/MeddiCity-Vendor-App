@@ -19,6 +19,9 @@ import 'package:sixam_mart_store/view/base/custom_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+
+import '../util/images.dart';
 
 class StoreController extends GetxController implements GetxService {
   final StoreRepo storeRepo;
@@ -293,6 +296,13 @@ class StoreController extends GetxController implements GetxService {
     _isLoading = false;
     update();
   }
+  
+   Future<XFile> getImageXFileByUrl(String url) async {
+    var file = await DefaultCacheManager().getSingleFile(url);
+    XFile result = await XFile(file.path);
+    // _rawImages.add(result);
+    return result;
+  }
 
   void pickImage(bool isLogo, bool isRemove) async {
     if(isRemove) {
@@ -303,11 +313,15 @@ class StoreController extends GetxController implements GetxService {
         XFile _pickedLogo = await ImagePicker().pickImage(source: ImageSource.gallery);
         if(_pickedLogo != null) {
           _rawLogo = _pickedLogo;
+        }else{
+            _rawLogo = await getImageXFileByUrl(Images.placeholder);
         }
       } else {
         XFile _pickedCover = await ImagePicker().pickImage(source: ImageSource.gallery);
         if(_pickedCover != null) {
           _rawCover = _pickedCover;
+        }else{
+            _rawLogo = await getImageXFileByUrl(Images.placeholder);
         }
       }
       update();
@@ -605,7 +619,12 @@ class StoreController extends GetxController implements GetxService {
   void pickImages() async {
     XFile _xFile = await ImagePicker().pickImage(source: ImageSource.gallery);
     if(_xFile != null) {
+      print("this is image"+"${_xFile}");
       _rawImages.add(_xFile);
+      
+    }else{
+      // _rawImages.add(Image.asset(Images.placeholder));
+      _rawImages.add( await getImageXFileByUrl(Images.placeholder));
     }
     update();
   }
